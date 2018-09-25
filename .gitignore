@@ -1,0 +1,11 @@
+# except model files
+web_if/model/
+
+# except image files
+*.jpg
+*.png
+*.JPG
+*.PNG
+
+# except venv dir
+web_if/venv/
