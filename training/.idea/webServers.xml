@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f001bce9-e4fe-4b1e-9e4e-e804cc000116" name="train_bike" url="http://192.168.3.5">
+        <fileTransfer host="192.168.3.5" port="22002" privateKey="$USER_HOME$/.ssh/id_rsa" accessType="SFTP" username="yusuke" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
