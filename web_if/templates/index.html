@@ -12,9 +12,11 @@
     <input type="submit" value="解析開始" class="btn">
 </form>
     {% if img_url %}
-<p><img src="{{ img_url }}"></p>
+        <p><img src="{{ img_url }}"></p>
     {% endif %}
     {% if result %}
-<p> 判定結果：<span style="color: #ff0000; background-color: transparent">{{ result }}</span></p>
+        <p> 判定結果：<span style="color: #ff0000; background-color: transparent">{{ result }}</span></p>
+        <p> 歪みなし確率： {{ confidences[0][0] }}% <br>
+            歪みあり確率： {{ confidences[0][1] }}% </p>
     {% endif %}
 {% endblock %}

@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 from werkzeug import secure_filename
 import cv2
 import predict
+import numpy as np
 import tensorflow as tf
 import keras
 
@@ -71,8 +72,13 @@ def send():
 
             img_url = '/uploads/' + filename.split('.')[0] + '_resize34.' + filename.split('.')[1]
             use_model = app.config['MODEL_DIR'] + request.form['models']
-            result = predict.predict(resize_name, use_model)
-            return render_template('index.html', img_url=img_url, result=result, model_list = model_list)
+
+            result, feature = predict.predict(resize_name, use_model)
+
+            feature = np.round(feature, 3)
+            feature = feature * 100
+
+            return render_template('index.html', img_url=img_url, result=result, confidences=feature , model_list = model_list)
         else:
             return  ''' <p>許可されていない拡張子です。</p> '''
     else:

@@ -7,6 +7,7 @@ training/saved/
 *.png
 *.JPG
 *.PNG
+*.pyc
 
 # except venv dir
 web_if/venv/
