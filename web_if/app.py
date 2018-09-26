@@ -7,7 +7,7 @@ import predict
 import tensorflow as tf
 import keras
 
-app = Flask(__name__.dalk)
+app = Flask(__name__)
 
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif', 'PNG', 'JPG', 'GIF'])
