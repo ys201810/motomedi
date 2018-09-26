@@ -74,7 +74,7 @@ def send():
             result = predict.predict(resize_name, use_model)
             return render_template('index.html', img_url=img_url, result=result, model_list = model_list)
         else:
-            return  ''' <p>許可されていない拡張子です</p> '''
+            return  ''' <p>許可されていない拡張子です。</p> '''
     else:
         return redirect(url_for('index'))
 
