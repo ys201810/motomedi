@@ -9,3 +9,6 @@ web_if/model/
 
 # except venv dir
 web_if/venv/
+
+# except .idea
+training/.idea/
