@@ -1,5 +1,6 @@
 # except model files
 web_if/model/
+training/saved/
 
 # except image files
 *.jpg
