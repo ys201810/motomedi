@@ -32,8 +32,7 @@ def predict(target_image, model_file):
     else:
         result = '歪みあり'
 
-    print(result)
-    return result
+    return result, features
 
 """
     for i, image_name in enumerate(distortion_images):
