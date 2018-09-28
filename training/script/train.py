@@ -54,9 +54,12 @@ def main():
     sgd = optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
 
     # tensor board setting
-    write_graph = False
+    # network graph draw
+    write_graph = True
+    # each layer's distribution draw
     histogram_freq = 0
-    clbk = train_val_tesnsorboard.TrainValTensorBoard(write_graph=write_graph, histogram_freq=histogram_freq)
+
+    clbk = tensorboard_conf.TrainValTensorBoard(write_graph=write_graph, histogram_freq=histogram_freq)
 
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=sgd,metrics=['accuracy'])
@@ -65,7 +68,7 @@ def main():
               epochs=epochs,
               verbose=1,
               validation_data=(x_test, y_test),
-              callbacks=[])
+              callbacks=[clbk])
 
     score = model.evaluate(x_test, y_test, verbose=0)
     print('Test loss:', score[0])
