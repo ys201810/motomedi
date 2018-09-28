@@ -5,13 +5,13 @@ import tensorflow as tf
 
 
 class TrainValTensorBoard(keras.callbacks.TensorBoard):
-    def __init__(self, log_dir='../saved/', **kwargs):
+    def __init__(self, log_dir, **kwargs):
         # Make the original `TensorBoard` log to a subdirectory 'training'
-        training_log_dir = os.path.join(log_dir, '../saved/tensorboard/train')
+        training_log_dir = os.path.join(log_dir, 'train')
         super(TrainValTensorBoard, self).__init__(training_log_dir, **kwargs)
 
         # Log the validation metrics to a separate subdirectory
-        self.val_log_dir = os.path.join(log_dir, '../saved/tensorboard/val')
+        self.val_log_dir = os.path.join(log_dir, 'val')
 
     def set_model(self, model):
         # Setup writer for validation metrics

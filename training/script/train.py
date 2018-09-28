@@ -11,9 +11,13 @@ import numpy as np
 from keras import optimizers
 import network
 import tensorboard_conf
+import configparser
+import datetime
+import shutil
 
 
 def main():
+    # pre processing
     os.environ['PYTHONHASHSEED'] = '0'
     np.random.seed(0)
     rn.seed(0)
@@ -22,16 +26,33 @@ def main():
     sess = tf.Session(graph=tf.get_default_graph(), config=session_conf)
     K.set_session(sess)
 
-    input_shape = (300, 400, 3)
-    batch_size = 8
-    epochs = 100
-    num_classes = 2
+    # config setting
+    config_file = '../conf/config.ini'
+    config = configparser.ConfigParser()
+    config.read(config_file)
 
-    # data_fir = '../datasets/fork_front_sr400/'
-    data_dir = '../datasets/'
-    log_dir = '../saved/tensorboard/'
-    model_dir = '../saved/model/'
+    image_height = int(config.get('image_info', 'image_height'))
+    image_width = int(config.get('image_info', 'image_width'))
+    image_channel_dim = int(config.get('image_info', 'image_channel_dim'))
+    input_shape = (image_height, image_width, image_channel_dim)
 
+    batch_size = int(config.get('train_info', 'batch_size'))
+    epochs = int(config.get('train_info', 'epochs'))
+
+    num_classes = int(config.get('label_info', 'num_classes'))
+
+    now = datetime.datetime.now()
+    experiment_id = now.strftime('%Y%m%d_%H%M')
+    save_dir = config.get('other_info', 'save_dir')
+    save_experiment_dir = save_dir + experiment_id + '/'
+    data_dir = config.get('other_info', 'data_dir')
+    log_dir = save_experiment_dir + '/tensorboard'
+    model_dir = save_experiment_dir + '/model/'
+
+    os.mkdir(save_dir + experiment_id)
+    os.mkdir(log_dir)
+    os.mkdir(model_dir)
+    shutil.copyfile(config_file, save_experiment_dir + config_file.split('/')[-1])
 
     x = []
     y = []
@@ -54,12 +75,10 @@ def main():
     sgd = optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
 
     # tensor board setting
-    # network graph draw
-    write_graph = True
-    # each layer's distribution draw
-    histogram_freq = 0
+    write_graph = True # network graph draw
+    histogram_freq = 0 # each layer's distribution draw
 
-    clbk = tensorboard_conf.TrainValTensorBoard(write_graph=write_graph, histogram_freq=histogram_freq)
+    clbk = tensorboard_conf.TrainValTensorBoard(log_dir=log_dir, write_graph=write_graph, histogram_freq=histogram_freq)
 
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=sgd,metrics=['accuracy'])
@@ -74,13 +93,12 @@ def main():
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
 
-    model.save_weights(os.path.join(model_dir,'cnn_model_weights_sr400_side_0_dis_1_nor.hdf5'))
+    model.save_weights(os.path.join(model_dir,'cnn_model_weights.hdf5'))
 
     json_string = model.to_json()
-    open(os.path.join(model_dir,'cnn_model_weights_sr400_side_0_dis_1_nor.json'), 'w').write(json_string)
-
-
-
+    open(os.path.join(model_dir,'cnn_model_weights.json'), 'w').write(json_string)
+    with open(save_experiment_dir + 'result.txt', 'w') as result_f:
+        result_f.write('Final Test loss: ' + str(score[0]) + '\n' + 'Final Test accuracy: '+ str(score[1]))
 
 if __name__ == '__main__':
     main()
