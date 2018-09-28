@@ -10,6 +10,7 @@ import keras
 import numpy as np
 from keras import optimizers
 import network
+import tensorboard_conf
 
 
 def main():
@@ -52,6 +53,11 @@ def main():
     model = network.darknet19(input_shape, num_classes)
     sgd = optimizers.SGD(lr=0.001, decay=1e-6, momentum=0.9, nesterov=True)
 
+    # tensor board setting
+    write_graph = False
+    histogram_freq = 0
+    clbk = train_val_tesnsorboard.TrainValTensorBoard(write_graph=write_graph, histogram_freq=histogram_freq)
+
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=sgd,metrics=['accuracy'])
     history = model.fit(x_train, y_train,
@@ -59,7 +65,7 @@ def main():
               epochs=epochs,
               verbose=1,
               validation_data=(x_test, y_test),
-              callbacks=[TrainValTensorBoard(write_graph=False)])
+              callbacks=[])
 
     score = model.evaluate(x_test, y_test, verbose=0)
     print('Test loss:', score[0])
@@ -71,41 +77,7 @@ def main():
     open(os.path.join(model_dir,'cnn_model_weights_sr400_side_0_dis_1_nor.json'), 'w').write(json_string)
 
 
-class TrainValTensorBoard(keras.callbacks.TensorBoard):
-    def __init__(self, log_dir='../saved/', **kwargs):
-        # Make the original `TensorBoard` log to a subdirectory 'training'
-        training_log_dir = os.path.join(log_dir, '../saved/tensorboard/train')
-        super(TrainValTensorBoard, self).__init__(training_log_dir, **kwargs)
 
-        # Log the validation metrics to a separate subdirectory
-        self.val_log_dir = os.path.join(log_dir, '../saved/tensorboard/val')
-
-    def set_model(self, model):
-        # Setup writer for validation metrics
-        self.val_writer = tf.summary.FileWriter(self.val_log_dir)
-        super(TrainValTensorBoard, self).set_model(model)
-
-    def on_epoch_end(self, epoch, logs=None):
-        # Pop the validation logs and handle them separately with
-        # `self.val_writer`. Also rename the keys so that they can
-        # be plotted on the same figure with the training metrics
-        logs = logs or {}
-        val_logs = {k.replace('val_', ''): v for k, v in logs.items() if k.startswith('val_')}
-        for name, value in val_logs.items():
-            summary = tf.Summary()
-            summary_value = summary.value.add()
-            summary_value.simple_value = value.item()
-            summary_value.tag = name
-            self.val_writer.add_summary(summary, epoch)
-        self.val_writer.flush()
-
-        # Pass the remaining logs to `TensorBoard.on_epoch_end`
-        logs = {k: v for k, v in logs.items() if not k.startswith('val_')}
-        super(TrainValTensorBoard, self).on_epoch_end(epoch, logs)
-
-    def on_train_end(self, logs=None):
-        super(TrainValTensorBoard, self).on_train_end(logs)
-        self.val_writer.close()
 
 if __name__ == '__main__':
     main()
