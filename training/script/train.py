@@ -54,14 +54,17 @@ def main():
     os.mkdir(model_dir)
     shutil.copyfile(config_file, save_experiment_dir + config_file.split('/')[-1])
 
+    normal_labelnum = int(config.get('label_info', 'normal'))
+    distortion_labelnum = int(config.get('label_info', 'distortion'))
+
     x = []
     y = []
-    for f in os.listdir(data_dir + "side_fork_distortion_sr400/"):
-        x.append(image.img_to_array(image.load_img(data_dir + "side_fork_distortion_sr400/" + f, target_size=input_shape[:2])))
-        y.append(0)
     for f in os.listdir(data_dir + "side_fork_sr400/"):
         x.append(image.img_to_array(image.load_img(data_dir + "side_fork_sr400/" + f, target_size=input_shape[:2])))
-        y.append(1)
+        y.append(normal_labelnum)
+    for f in os.listdir(data_dir + "side_fork_distortion_sr400/"):
+        x.append(image.img_to_array(image.load_img(data_dir + "side_fork_distortion_sr400/" + f, target_size=input_shape[:2])))
+        y.append(distortion_labelnum)
 
     x = np.asarray(x)
     x /= 255
