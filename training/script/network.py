@@ -71,12 +71,15 @@ def darknet19(input_shape, num_classes):
     model.add(Conv2D(512, kernel_size=(1, 1),activation='relu', name='conv15'))
     model.add(BatchNormalization(momentum=0.99, epsilon=0.001, center=True, scale=True))
 
+    # memory lack....
     # model.add(Conv2D(1024, kernel_size=(3, 3),activation='relu', name='conv16'))
     # model.add(BatchNormalization(momentum=0.99, epsilon=0.001, center=True, scale=True))
 
-    model.add(Conv2D(512, kernel_size=(1, 1),activation='relu', name='conv17'))
+    # model.add(Conv2D(512, kernel_size=(1, 1),activation='relu', name='conv17')) # original = 512
+    model.add(Conv2D(1024, kernel_size=(1, 1),activation='relu', name='conv17'))
     model.add(BatchNormalization(momentum=0.99, epsilon=0.001, center=True, scale=True))
 
+    # memory lack....
     # model.add(Conv2D(1024, kernel_size=(3, 3),activation='relu', name='conv18'))
     # model.add(BatchNormalization(momentum=0.99, epsilon=0.001, center=True, scale=True))
 

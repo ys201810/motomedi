@@ -57,10 +57,12 @@ def predict(target_image, model_file):
 """
 
 if __name__ == '__main__':
-    image_dir = './test_data/side_normal/'
+    image_dir = './test_data/distortion/'
     image_list = os.listdir(image_dir)
     for target_image in image_list:
         img_path = image_dir + target_image
-        model_path = './model/cnn_model_weights_sr400_side_0_dis_1_nor.hdf5'
+        model_path = './model/cnn_model_weights_front_test.hdf5'
+        #model_path = './model/cnn_model_weights_sr400_side_0_dis_1_nor.hdf5'
         print(img_path)
-        predict(img_path, model_path)
+        result, features = predict(img_path, model_path)
+        print(result)
