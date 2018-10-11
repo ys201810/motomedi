@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*- 
-import train
+import network
 from keras.preprocessing import image
 import numpy as np
 import os
@@ -10,7 +10,7 @@ def predict(target_image, model_file):
     input_shape = (300, 400, 3)
     num_classes = 2
 
-    model = train.model2(input_shape, num_classes)
+    model = network.darknet19(input_shape, num_classes)
     model.load_weights(model_path)
 
     # normal_images = os.listdir(sr400_normal_dir)
@@ -28,9 +28,9 @@ def predict(target_image, model_file):
 
     features = model.predict(x_list)
     if features[0][0] > features[0][1]:
-        result = '歪みなし'
-    else:
         result = '歪みあり'
+    else:
+        result = '歪みなし'
 
     return result, features
 
@@ -57,12 +57,15 @@ def predict(target_image, model_file):
 """
 
 if __name__ == '__main__':
-    image_dir = './test_data/distortion/'
+    # image_dir = './test_data/distortion/'
+    image_dir = './test_data/side_distortion/'
     image_list = os.listdir(image_dir)
     for target_image in image_list:
         img_path = image_dir + target_image
-        model_path = './model/cnn_model_weights_front_test.hdf5'
-        #model_path = './model/cnn_model_weights_sr400_side_0_dis_1_nor.hdf5'
+        # model_path = './model/cnn_model_weights_front_test.hdf5'
+        model_path = './model/cnn_model_weights_side.hdf5'
+        # model_path = './model/cnn_model_weights_sr400_side_0_dis_1_nor.hdf5'
+        # model_path = './model/cnn_model_weights_sr400_side.hdf5'
         print(img_path)
         result, features = predict(img_path, model_path)
         print(result)
