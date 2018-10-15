@@ -73,8 +73,8 @@ def main():
     # normal_labelnum = int(config.get('label_info', 'normal'))
     # distortion_labelnum = int(config.get('label_info', 'distortion'))
 
-    train_datagen = ImageDataGenerator(rescale=1./255,
-                                       width_shift_range=0.2
+    train_datagen = ImageDataGenerator(rescale=1./255
+                                       # width_shift_range=0.2
                                        # shear_range=0.2,
                                        # zoom_range=0.2,
                                        # rotation_range=180,
