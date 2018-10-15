@@ -16,7 +16,7 @@
     {% endif %}
     {% if result %}
         <p> 判定結果：<span style="color: #ff0000; background-color: transparent">{{ result }}</span></p>
-        <p> 歪みなし確率： {{ confidences[0][0] }}% <br>
-            歪みあり確率： {{ confidences[0][1] }}% </p>
+        <p> 歪みあり確率： {{ confidences[0][0] }}% <br>
+            歪みなし確率： {{ confidences[0][1] }}% </p>
     {% endif %}
 {% endblock %}
