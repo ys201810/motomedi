@@ -39,14 +39,21 @@ def class_ff_rand():
     return render_template('classification_front_fork.html', model_name = 'classification_front_fork')
 
 
-@app.route('/send', methods=['GET', 'POST'])
-def send():
-    img_url, result, feature, model_list = aaa()
-    return render_template('classification_side_fork.html', img_url=img_url, result=result, confidences=feature , model_list = model_list)
+@app.route('/send_sf', methods=['GET', 'POST'])
+def send_sf():
+    use_model = './model/cnn_model_weights_side.hdf5'
+    img_url, result, feature = class_inference(use_model)
+    return render_template('classification_side_fork.html', img_url=img_url, result=result,
+                           confidences=feature , model_name = 'classification_side_fork')
 
-def aaa():
-    model_list = os.listdir(app.config['MODEL_DIR'])
+@app.route('/send_ff', methods=['GET', 'POST'])
+def send_ff():
+    use_model = './model/cnn_model_weights_ff.hdf5'
+    img_url, result, feature = class_inference(use_model)
+    return render_template('classification_front_fork.html', img_url=img_url, result=result,
+                           confidences=feature , model_name = 'classification_front_fork')
 
+def class_inference(use_model):
     if request.method == 'POST':
         img_file = request.files['img_file']
         if img_file and allowed_file(img_file.filename):
@@ -63,14 +70,14 @@ def aaa():
             cv2.imwrite(resize_name, resize_img)
 
             img_url = '/uploads/' + filename.split('.')[0] + '_resize34.' + filename.split('.')[1]
-            use_model = app.config['MODEL_DIR'] + request.form['models']
+            use_model = use_model
 
             result, feature = predict.predict(resize_name, use_model)
 
             feature = np.round(feature, 3)
             feature = feature * 100
 
-            return img_url, result, feature, model_list
+            return img_url, result, feature
         else:
             return  ''' <p>許可されていない拡張子です。</p> '''
     else:
