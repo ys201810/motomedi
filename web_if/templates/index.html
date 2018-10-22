@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post" action="/send" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
    <input type="button" onclick="location.href='/class_sf_rand'"value="[分類]side fork"><br>
-   <input type="button" onclick="location.href='/class_ff_rand'"value="[分類]front fork">
+   <input type="button" onclick="location.href='/class_ff_rand'"value="[分類]front fork"><br>
+   <input type="button" onclick="location.href='/detec_sf_rand'"value="[検出]side fork">
 </form>
 {% endblock %}
