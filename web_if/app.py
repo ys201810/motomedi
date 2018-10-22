@@ -21,38 +21,30 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-
 @app.route('/')
 def index():
     """ This is first access point. Get the model list from model directory and send for html's select box."""
+    return render_template('index.html')
+
+@app.route('/class_sf_rand')
+def class_sf_rand():
+    """ This is first access point. Get the model list from model directory and send for html's select box."""
     model_list = os.listdir(app.config['MODEL_DIR'])
-    return render_template('index.html', model_list = model_list)
+    return render_template('classification_side_fork.html', model_name = 'classification_side_fork')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        if username == 'admin':
-            session['username'] = request.form['username']
-            return redirect(url_for('index'))
-        else:
-            return '''<p>ユーザー名が違います</p>'''
-    return '''
-        <form action="" method="post">
-            <p><input type="text" name="username">
-            <p><input type="submit" value="Login">
-        </form>
-    '''
-
-
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    return redirect(url_for('index'))
+@app.route('/class_ff_rand')
+def class_ff_rand():
+    """ This is first access point. Get the model list from model directory and send for html's select box."""
+    model_list = os.listdir(app.config['MODEL_DIR'])
+    return render_template('classification_front_fork.html', model_name = 'classification_front_fork')
 
 
 @app.route('/send', methods=['GET', 'POST'])
 def send():
+    img_url, result, feature, model_list = aaa()
+    return render_template('classification_side_fork.html', img_url=img_url, result=result, confidences=feature , model_list = model_list)
+
+def aaa():
     model_list = os.listdir(app.config['MODEL_DIR'])
 
     if request.method == 'POST':
@@ -78,16 +70,36 @@ def send():
             feature = np.round(feature, 3)
             feature = feature * 100
 
-            return render_template('index.html', img_url=img_url, result=result, confidences=feature , model_list = model_list)
+            return img_url, result, feature, model_list
         else:
             return  ''' <p>許可されていない拡張子です。</p> '''
     else:
         return redirect(url_for('index'))
 
-
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        if username == 'admin':
+            session['username'] = request.form['username']
+            return redirect(url_for('index'))
+        else:
+            return '''<p>ユーザー名が違います</p>'''
+    return '''
+        <form action="" method="post">
+            <p><input type="text" name="username">
+            <p><input type="submit" value="Login">
+        </form>
+    '''
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
