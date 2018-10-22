@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*- 
-import train
+import network
 from keras.preprocessing import image
+from keras.models import model_from_json
 import numpy as np
 import os
 
@@ -10,8 +11,7 @@ def predict(target_image, model_file):
     input_shape = (300, 400, 3)
     num_classes = 2
 
-    model = train.model2(input_shape, num_classes)
-    model.load_weights(model_path)
+    model = network.darknet19(input_shape, num_classes)
 
     # normal_images = os.listdir(sr400_normal_dir)
     # distortion_images = os.listdir(sr400_distortion_dir)
