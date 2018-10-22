@@ -53,8 +53,9 @@ def main():
     save_experiment_dir = save_dir + experiment_id + '/'
     log_dir = save_experiment_dir + '/tensorboard'
     model_dir = save_experiment_dir + '/model/'
-    train_dir = config.get('label_info', 'train_path')
-    test_dir = config.get('label_info', 'test_path')
+    data_dir = config.get('other_info', 'data_dir')
+    # train_dir = config.get('label_info', 'train_path')
+    # test_dir = config.get('label_info', 'test_path')
 
     if os.path.exists(save_dir + experiment_id):
         shutil.rmtree(save_dir + experiment_id)
@@ -70,31 +71,27 @@ def main():
     # config save
     shutil.copyfile(config_file, save_experiment_dir + config_file.split('/')[-1])
 
-    # normal_labelnum = int(config.get('label_info', 'normal'))
-    # distortion_labelnum = int(config.get('label_info', 'distortion'))
+    normal_labelnum = int(config.get('label_info', 'normal'))
+    distortion_labelnum = int(config.get('label_info', 'distortion'))
 
-    train_datagen = ImageDataGenerator(rescale=1./255
-                                       # width_shift_range=0.2
-                                       # shear_range=0.2,
-                                       # zoom_range=0.2,
-                                       # rotation_range=180,
-                                       # horizontal_flip=True
-    )
+    x = []
+    y = []
+    for f in os.listdir(data_dir + "normal/"):
+        if f == '.DS_Store':
+            continue
+        x.append(image.img_to_array(image.load_img(data_dir + "normal/" + f, target_size=input_shape[:2])))
+        y.append(normal_labelnum)
+    for f in os.listdir(data_dir + "distortion/"):
+        if f == '.DS_Store':
+            continue
+        x.append(image.img_to_array(image.load_img(data_dir + "distortion/" + f, target_size=input_shape[:2])))
+        y.append(distortion_labelnum)
 
-    test_datagen = ImageDataGenerator(rescale=1./255)
-
-    train_generator = train_datagen.flow_from_directory(
-        train_dir,
-        target_size=input_shape[:2],
-        batch_size=32,
-        class_mode='categorical'
-    )
-
-    test_generator = test_datagen.flow_from_directory(
-        test_dir,
-        target_size=input_shape[:2],
-        batch_size=32,
-        class_mode='categorical')
+    x = np.asarray(x)
+    x /= 255
+    y = np.asarray(y)
+    y = keras.utils.to_categorical(y, num_classes)
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state= 3)
 
     print('model load')
     model = network.darknet19(input_shape, num_classes)
@@ -109,13 +106,14 @@ def main():
     model.compile(loss=keras.losses.categorical_crossentropy,
                   optimizer=sgd,metrics=['accuracy'])
 
-    history = model.fit_generator(train_generator,
-                                  # samples_per_epoch = None,
-                                  nb_epoch=epochs,
-                                  validation_data=test_generator,
-                                  callbacks=[clbk])
+    history = model.fit(x_train, y_train,
+              batch_size=batch_size,
+              epochs=epochs,
+              verbose=1,
+              validation_data=(x_test, y_test),
+              callbacks=[clbk])
 
-    score = model.evaluate_generator(test_generator)
+    score = model.evaluate(x_test, y_test, verbose=0)
 
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
