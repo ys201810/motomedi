@@ -10,8 +10,8 @@ from sklearn.cross_validation import train_test_split
 import keras
 import numpy as np
 from keras import optimizers
-import network
-import tensorboard_conf
+import classification.network as network
+import common.tensorboard_conf as tensorboard_conf
 import configparser
 import datetime
 import shutil
