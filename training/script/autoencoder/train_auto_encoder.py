@@ -8,22 +8,22 @@ import os
 from PIL import Image
 from collections import namedtuple
 from keras.backend import tensorflow_backend as backend
-import auto_encorder_network
+import autoencoder.auto_encoder_network as auto_encoder_network
 
 
 def main():
-    TrainConfig = namedtuple('TrainConfig', 'batch_size nb_epoch encoding_dim image_size ')
+    TrainConfig = namedtuple('TrainConfig', 'batch_size nb_epoch encoding_dim image_size saved_dir')
     # mnist_conf
     # t_conf = TrainConfig(256, 50, 32, (28, 28, 1))
 
     # fork_conf
     # t_conf = TrainConfig(256, 100, 320, (99, 196, 1))
-    t_conf = TrainConfig(256, 500, 3200, (100, 196, 1))
+    t_conf = TrainConfig(256, 500, 3200, (100, 196, 1), '../saved/autoencoder/')
 
-    autoencoder = auto_encorder_network.simple_auto_encoder(t_conf)
+    autoencoder = auto_encoder_network.deep_auto_encoder(t_conf)
     autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-    x_train, x_test = get_fork_data()
+    x_train, x_test = get_fork_data(t_conf)
 
     print(x_train.shape, x_test.shape)
     autoencoder.fit(x_train, x_train,
@@ -32,14 +32,14 @@ def main():
                     shuffle=True,
                     validation_data=(x_test, x_test))
 
-    autoencoder.save_weights('autoencoder_3200_500.h5')
+    autoencoder.save_weights(t_conf.saved_dir + 'autoencoder_deep.h5')
     # autoencoder.load_weights('autoencoder.h5')
 
     decoded_imgs = autoencoder.predict(x_test)
     draw_result(decoded_imgs, x_test, t_conf)
     backend.clear_session()
 
-def get_fork_data():
+def get_fork_data(t_conf):
     in_dir = '/usr/local/wk/work/VoTT/data/sr400_right/image_bb/'
     # in_dir = '/home/yusuke/work/motomedi/training/script/data/image_bb/'
     image_list = os.listdir(in_dir)
@@ -51,7 +51,7 @@ def get_fork_data():
         # gray scale
         img = img.convert('L')
         # resize
-        resize_img = img.resize((100, 196))
+        resize_img = img.resize((t_conf.image_size[0], t_conf.image_size[1]))
 
         imgArray = np.asarray(resize_img)
         # regularization
@@ -60,8 +60,8 @@ def get_fork_data():
         # print(i, imgArray.shape)
 
     pixel_list = np.stack(pixel_list)
-    pixel_list = pixel_list.reshape((len(pixel_list), np.prod(imgArray.shape[0:])))
-    # pixel_list = pixel_list.reshape((len(pixel_list), 1, 99, 193))
+    # pixel_list = pixel_list.reshape((len(pixel_list), np.prod(imgArray.shape[0:])))
+    pixel_list = pixel_list.reshape((len(pixel_list), t_conf.image_size[0], t_conf.image_size[1], t_conf.image_size[2]))
     train_images = pixel_list[:900]
     test_images = pixel_list[900:]
 
