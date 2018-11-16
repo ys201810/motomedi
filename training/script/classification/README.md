@@ -1,6 +1,6 @@
 ## what is this directory
 This directory is for cnn classification training.
-You can use only darknet19 now. I want to add other networks.
+You can use only darknet19 now. I want to add other networks.  
 
 ## how to use
 1. Make a dataset.
@@ -8,7 +8,7 @@ You can use only darknet19 now. I want to add other networks.
  Make below's format.
   /path/to/motomedi/datasets/fruit/train/[apple, banana, grape]
   /path/to/motomedi/datasets/fruit/test/[apple, banana, grape]
- for example
+ For Example
 
   ```
   /usr/local/wk/motomedi/datasets/fruit/train/apple/apple_1.png
@@ -18,14 +18,14 @@ You can use only darknet19 now. I want to add other networks.
   /usr/local/wk/motomedi/datasets/fruit/train/banana/banana_2.png
   ...
   ```
-  (of course, you can use free name for image files. you don't need to follow example names.)
+  (Of course, you can use free name for image files. You don't need to follow example names.)
 
 2. Edit conf file.
  Edit conf file(/path/to/motomedi/training/conf/config.ini)
  Editing points are below.
   - base_dir : set your environment's motomedi path.
   - image_height, image_width : set your image size. (if your original images doesn't match this number, it is ok. in the process, automatically resize using this settings.)
-    [もし、用意した画像サイズと、このサイズが違っても問題ないです。処理の中で設定したサイズで勝手にリサイズします。]
+    [用意した画像サイズと、このサイズが違っても問題ないです。処理の中で設定したサイズで勝手にリサイズします。]
   - image_channel_dim : set your image channel dimensions. if you want to use gray scale then 1, rgb then 3.
   - batch_size : set cnn's processing batch size.
   - epoch_num : set cnn's processing epoch number. 1 epoch means using for training all training data.
@@ -42,5 +42,5 @@ You can use only darknet19 now. I want to add other networks.
  please fix from /path/to to your environment's path.
 
 ## notes
- this directory is WIP.
+ This directory is WIP.
  if you want to fix some points then, please make a issue.
