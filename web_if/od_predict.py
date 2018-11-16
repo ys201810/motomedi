@@ -1,7 +1,7 @@
 import sys
 import argparse
 from od_yolo import YOLO, detect_video
-from utils import letterbox_image
+from yolo3.utils import letterbox_image
 from PIL import Image, ImageFont, ImageDraw
 import numpy as np
 from keras import backend as K
