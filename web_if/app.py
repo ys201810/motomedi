@@ -26,6 +26,11 @@ def index():
     """ This is first access point. Get the model list from model directory and send for html's select box."""
     return render_template('index.html')
 
+@app.route('/class_shashu_rand')
+def class_shashu_rand():
+    """ This is first access point. Get the model list from model directory and send for html's select box."""
+    return render_template('classification_shashu.html', model_name = 'classification_shashu')
+
 @app.route('/class_sf_rand')
 def class_sf_rand():
     """ This is first access point. Get the model list from model directory and send for html's select box."""
@@ -41,19 +46,29 @@ def detec_sf_rand():
     """ This is first access point. Get the model list from model directory and send for html's select box."""
     return render_template('detection_side_fork.html', model_name = 'detection_side_fork')
 
+@app.route('/send_shashu', methods=['GET', 'POST'])
+def send_shashu():
+    use_model = './model/cnn_model_weights_type.hdf5'
+    img_url, first_idx, second_idx, third_idx, feature = class_inference(use_model, 'shashu')
+    shashuh_true_list = ['bolt','cb1300','gsx_r1000','gsx_r1000r','gsx_s1000','gsx_s1000f','mt_07','mt_09','ninja','sv650','tmax','trecer900','v_strom_1000','v_strom_650','v_strom_650xt','yamaha__sr400','yzf_r1','yzf_r25','zrx1200']
+    first_shashu = shashuh_true_list[first_idx]
+    second_shashu = shashuh_true_list[second_idx]
+    third_shashu = shashuh_true_list[third_idx]
+    return render_template('classification_shashu.html', img_url=img_url, first_shashu=first_shashu, second_shashu=second_shashu, third_shashu=third_shashu,
+                           confidences=feature , model_name = 'classification_shashu')
 
 @app.route('/send_sf', methods=['GET', 'POST'])
 def send_sf():
     use_model = './model/cnn_model_weights_side.hdf5'
-    img_url, result, feature = class_inference(use_model)
-    return render_template('classification_side_fork.html', img_url=img_url, result=result,
+    img_url, first_idx, second_idx, third_idx, feature = class_inference(use_model, 'fork')
+    return render_template('classification_side_fork.html', img_url=img_url, result=first_idx,
                            confidences=feature , model_name = 'classification_side_fork')
 
 @app.route('/send_ff', methods=['GET', 'POST'])
 def send_ff():
     use_model = './model/cnn_model_weights_ff.hdf5'
-    img_url, result, feature = class_inference(use_model)
-    return render_template('classification_front_fork.html', img_url=img_url, result=result,
+    img_url, first_idx, second_idx, third_idx, feature = class_inference(use_model, 'fork')
+    return render_template('classification_front_fork.html', img_url=img_url, result=first_idx,
                            confidences=feature , model_name = 'classification_front_fork')
 
 @app.route('/send_sf_det', methods=['GET', 'POST'])
@@ -63,7 +78,7 @@ def send_sf_det():
     return render_template('detection_side_fork.html', img_url=img_url, result_url=result_url,
                            model_name = 'detection_side_fork')
 
-def class_inference(use_model):
+def class_inference(use_model, process_kbn):
     if request.method == 'POST':
         img_file = request.files['img_file']
         if img_file and allowed_file(img_file.filename):
@@ -82,12 +97,17 @@ def class_inference(use_model):
             img_url = '/uploads/' + filename.split('.')[0] + '_resize34.' + filename.split('.')[1]
             use_model = use_model
 
-            result, feature = predict.predict(resize_name, use_model)
+            if process_kbn == 'fork':
+                num_class = 2
+            elif process_kbn == 'shashu':
+                num_class = 19
+
+            first_idx, second_idx, third_idx, feature = predict.predict(resize_name, use_model, num_class)
 
             feature = np.round(feature, 3)
             feature = feature * 100
 
-            return img_url, result, feature
+            return img_url, first_idx, second_idx, third_idx, feature
         else:
             return  ''' <p>許可されていない拡張子です。</p> '''
     else:
