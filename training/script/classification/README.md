@@ -18,6 +18,7 @@ You can use only darknet19 now. I want to add other networks.
   /usr/local/wk/motomedi/datasets/fruit/train/banana/banana_2.png
   ...
   ```
+
     (Of course, you can use free name for image files. You don't need to follow example names.)
 
 2. Edit conf file.
