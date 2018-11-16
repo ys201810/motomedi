@@ -1,14 +1,14 @@
 ## what is this directory
-This directory is for cnn classification training.
-You can use only darknet19 now. I want to add other networks.  
+This directory is for cnn classification training.  
+You can use only darknet19 now. I want to add other networks.
 
 ## how to use
 1. Make a dataset.
- Prepare train and test data on /path/to/motomedi/datasets/.(if you don't have this repository, please make it.)
- Make below's format.
-  /path/to/motomedi/datasets/fruit/train/[apple, banana, grape]
-  /path/to/motomedi/datasets/fruit/test/[apple, banana, grape]
- For Example
+ Prepare train and test data on /path/to/motomedi/datasets/.(if you don't have this repository, please make it.)  
+ Make below's format.  
+  /path/to/motomedi/datasets/fruit/train/[apple, banana, grape]  
+  /path/to/motomedi/datasets/fruit/test/[apple, banana, grape]  
+ For Example  
 
   ```
   /usr/local/wk/motomedi/datasets/fruit/train/apple/apple_1.png
@@ -18,7 +18,7 @@ You can use only darknet19 now. I want to add other networks.
   /usr/local/wk/motomedi/datasets/fruit/train/banana/banana_2.png
   ...
   ```
-  (Of course, you can use free name for image files. You don't need to follow example names.)
+    (Of course, you can use free name for image files. You don't need to follow example names.)
 
 2. Edit conf file.
  Edit conf file(/path/to/motomedi/training/conf/config.ini)
