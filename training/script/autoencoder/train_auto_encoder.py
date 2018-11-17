@@ -9,33 +9,58 @@ from PIL import Image
 from collections import namedtuple
 from keras.backend import tensorflow_backend as backend
 import autoencoder.auto_encoder_network as auto_encoder_network
+import datetime
+import shutil
 
 
 def main():
-    TrainConfig = namedtuple('TrainConfig', 'batch_size nb_epoch encoding_dim image_size saved_dir')
+    TrainConfig = namedtuple('TrainConfig', 'batch_size nb_epoch encoding_dim image_size saved_dir before_model')
     # mnist_conf
     # t_conf = TrainConfig(256, 50, 32, (28, 28, 1))
 
     # fork_conf
     # t_conf = TrainConfig(256, 100, 320, (99, 196, 1))
-    t_conf = TrainConfig(256, 500, 3200, (100, 196, 1), '../saved/autoencoder/')
+    t_conf = TrainConfig(256, 50, 3200, (100, 196, 1), '../../saved/autoencoder/', 'None')
+
+    now = datetime.datetime.now()
+    experiment_id = now.strftime('%Y%m%d_%H%M')
+    saved_experiment_id_dir = t_conf.saved_dir + experiment_id
+    saved_model_dir = saved_experiment_id_dir + '/model/'
+
+    if os.path.exists(saved_experiment_id_dir):
+        shutil.rmtree(saved_experiment_id_dir)
+    if os.path.exists(saved_model_dir):
+        shutil.rmtree(saved_model_dir)
+
+    os.mkdir(saved_experiment_id_dir)
+    os.mkdir(saved_model_dir)
+
+    shutil.copyfile('./auto_encoder_network.py', saved_experiment_id_dir + '/auto_encoder_network.py')
 
     autoencoder = auto_encoder_network.deep_auto_encoder(t_conf)
 
     x_train, x_test = get_fork_data(t_conf)
 
     print(x_train.shape, x_test.shape)
+
+    if t_conf.before_model != 'None':
+        autoencoder.load_weights(t_conf.before_model)
+
     autoencoder.fit(x_train, x_train,
                     epochs=t_conf.nb_epoch,
                     batch_size=t_conf.batch_size,
                     shuffle=True,
                     validation_data=(x_test, x_test))
 
-    autoencoder.save_weights(t_conf.saved_dir + 'autoencoder_deep.h5')
-    # autoencoder.load_weights('autoencoder.h5')
+    score = autoencoder.evaluate(x_test, x_test, verbose=0)
+
+    with open(saved_experiment_id_dir + '/result.txt', 'w') as outf:
+        outf.write('test loss:' + str(score) + '\n' + str(t_conf))
+
+    autoencoder.save_weights(saved_model_dir + 'autoencoder_deep.h5')
 
     decoded_imgs = autoencoder.predict(x_test)
-    draw_result(decoded_imgs, x_test, t_conf)
+    draw_result(decoded_imgs, x_test, t_conf, saved_experiment_id_dir)
     backend.clear_session()
 
 def get_fork_data(t_conf):
@@ -75,7 +100,7 @@ def get_mnist_data():
     return x_train, x_test
 
 
-def draw_result(decoded_imgs, x_test, t_conf):
+def draw_result(decoded_imgs, x_test, t_conf, saved_experiment_id_dir):
     # 何個表示するか
     n = 10
     plt.figure(figsize=(20, 4))
@@ -93,7 +118,7 @@ def draw_result(decoded_imgs, x_test, t_conf):
         plt.gray()
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
-    plt.savefig('figure.png')
+    plt.savefig(saved_experiment_id_dir + '/figure.png')
 
 
 if __name__ == '__main__':
