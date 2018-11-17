@@ -19,6 +19,7 @@ def deep_auto_encoder(t_conf):
     # Input shape = W, H, C
     # input_img = Input(shape=(t_conf.image_size[2], t_conf.image_size[0], t_conf.image_size[1]))
     input_img = Input(shape=(t_conf.image_size[0], t_conf.image_size[1], t_conf.image_size[2]))
+    # input_img = Input(shape=(t_conf.image_size[1], t_conf.image_size[2], t_conf.image_size[0]))
 
     x = Conv2D(filters=16, kernel_size=(3, 3), strides=1, activation='relu', padding='same', name='conv1')(input_img)
     x = MaxPooling2D(pool_size=(2, 2), strides=2, name='pool1')(x)

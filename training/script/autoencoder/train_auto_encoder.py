@@ -21,13 +21,12 @@ def main():
     t_conf = TrainConfig(256, 500, 3200, (100, 196, 1), '../saved/autoencoder/')
 
     autoencoder = auto_encoder_network.deep_auto_encoder(t_conf)
-    autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
     x_train, x_test = get_fork_data(t_conf)
 
     print(x_train.shape, x_test.shape)
     autoencoder.fit(x_train, x_train,
-                    nb_epoch=t_conf.nb_epoch,
+                    epochs=t_conf.nb_epoch,
                     batch_size=t_conf.batch_size,
                     shuffle=True,
                     validation_data=(x_test, x_test))
@@ -40,8 +39,8 @@ def main():
     backend.clear_session()
 
 def get_fork_data(t_conf):
-    in_dir = '/usr/local/wk/work/VoTT/data/sr400_right/image_bb/'
-    # in_dir = '/home/yusuke/work/motomedi/training/script/data/image_bb/'
+    # in_dir = '/usr/local/wk/work/VoTT/data/sr400_right/image_bb/'
+    in_dir = '/home/yusuke/work/motomedi/training/script/data/image_bb/'
     image_list = os.listdir(in_dir)
     pixel_list = []
     for i, image in enumerate(image_list):
