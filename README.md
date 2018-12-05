@@ -18,7 +18,7 @@ This repository has below's task training scripts.
 
 | No | Task name | Network architecture | Script path |
 |:-----------|:------------|:------------|:------------|
-| 1 | Classification | DarkNet19. | training/script/classification/ |
+| 1 | Classification | DarkNet19 | training/script/classification/ |
 | 2 | Object Detection | YOLOv3 | training/script/objectdetection/ |
 | 3 | Semantic Segmentation | SegNet | training/script/segmentation/ |
 | 4 | Auto Encoder | Very simple Network like a U-net | training/script/autoencoder/ |
