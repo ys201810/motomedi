@@ -2,7 +2,7 @@
 
 This repository have a below's function.
 1. Training a DL model.(scripts put at training/)  
-2. Confirm the DL inference result.(scripts put at web_if/) 
+2. Confirm the DL inference result.(scripts put at web_if/)  
     Currently this repo can confirm only Classification and Object Detection's results.  
 
 ## envirounment
@@ -12,6 +12,16 @@ keras 2.1.5
 
 ## about Training a DL model
 This repository has below's task training scripts.  
+
+| No | Task name | Network architecture | Script path |
+|:-----------|:------------|:------------|:------------|
+| 1 | Classification | DarkNet19. | training/script/classification/ |
+| 2 | Object Detection | YOLOv3 | training/script/objectdetection/ |
+| 3 | Semantic Segmentation | SegNet | training/script/segmentation/ |
+| 4 | Auto Encoder | Very simple Network like a U-net | training/script/autoencoder/ |
+
+
+
  1. Classification (DarkNet19).  
   training scripts put at 'training/script/classification/'  
  2. Object Detection(YOLOv3).  
