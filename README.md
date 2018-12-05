@@ -34,5 +34,5 @@ If you want to check the result using this, then you should execute a below comm
  ```
 
 Then you can show the simple UI page at http://localhost:5000.  
-But this is only a exsample, so if you want to customize your own model then you have to change the code.  
+But this is only a example, so if you want to customize your own model then you have to change the code.  
 
