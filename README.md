@@ -10,6 +10,8 @@ This repository have a below's function.
 python 3.5.2  
 tensorflow 1.6.0  
 keras 2.1.5  
+CUDA 9.0
+GPU GTX1080ti
 
 ## about Training a DL model
 This repository has below's task training scripts.  
