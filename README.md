@@ -2,7 +2,8 @@
 
 This repository have a below's function.
 1. Training a DL model.(scripts put at training/)  
-2. Confirm the DL inference result.(scripts put at web_if/) [Currently this repo can confirm only Classification and Object Detection's results.]  
+2. Confirm the DL inference result.(scripts put at web_if/) 
+    Currently this repo can confirm only Classification and Object Detection's results.  
 
 ## envirounment
 python 3.5.2  
