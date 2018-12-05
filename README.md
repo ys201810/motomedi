@@ -20,17 +20,6 @@ This repository has below's task training scripts.
 | 3 | Semantic Segmentation | SegNet | training/script/segmentation/ |
 | 4 | Auto Encoder | Very simple Network like a U-net | training/script/autoencoder/ |
 
-
-
- 1. Classification (DarkNet19).  
-  training scripts put at 'training/script/classification/'  
- 2. Object Detection(YOLOv3).  
-  training scripts put at 'training/script/objectdetection/'  
- 3. Semantic Segmentation(SegNet).  
-  training scripts put at 'training/script/segmentation/'
- 4. Auto Encoder(Very simple Network like a U-net)  
-  training scripts put at 'training/script/autoencoder/'
-
 Note that, now I don't write how to use each training scripts.  
 I will update it in each directories.[WIP]  
 
