@@ -26,7 +26,7 @@ This repository has below's task training scripts.
 Note that, now I don't write how to use each training scripts.  
 I will update it in each directories.[WIP]  
 
-## about Confirm the DL inference result.
+## about Confirming the DL inference result.
 I set up simple UI web apprication at 'web_if/'.  
 If you want to check the result using this, then you should execute a below command.  
 
