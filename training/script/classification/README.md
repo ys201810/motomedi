@@ -4,10 +4,11 @@ You can use only darknet19 now. I want to add other networks.
 
 ## how to use
 1. Make a dataset.
- Prepare train and test data on /path/to/motomedi/datasets/.(if you don't have this repository, please make it.)  
- Make below's format.  
+ Prepare train and test directories at /path/to/motomedi/datasets/. (if you don't have this directory, please make it.)  
+ You should make a below's two directories.  
   /path/to/motomedi/datasets/fruit/train/[apple, banana, grape]  
   /path/to/motomedi/datasets/fruit/test/[apple, banana, grape]  
+
  For Example  
 
   ```
@@ -19,7 +20,7 @@ You can use only darknet19 now. I want to add other networks.
   ...
   ```
 
-    (Of course, you can use free name for image files. You don't need to follow example names.)
+    (Of course, you can use free name for image files. You don't need to follow perfectory example names.)
 
 2. Edit conf file.
  Edit conf file(/path/to/motomedi/training/conf/config.ini)
