@@ -20,7 +20,8 @@ def main():
 
     # fork_conf
     # t_conf = TrainConfig(256, 100, 320, (99, 196, 1))
-    t_conf = TrainConfig(256, 50, 3200, (100, 196, 1), '../../saved/autoencoder/', 'None')
+    # t_conf = TrainConfig(256, 1000, 3200, (100, 196, 1), '../../saved/autoencoder/', 'None')
+    t_conf = TrainConfig(256, 20000, 3200, (100, 196, 1), '../../saved/autoencoder/', '../../saved/autoencoder/20181117_1730_deep_3000/model/autoencoder_deep_3000.h5')
 
     now = datetime.datetime.now()
     experiment_id = now.strftime('%Y%m%d_%H%M')
@@ -50,6 +51,7 @@ def main():
                     epochs=t_conf.nb_epoch,
                     batch_size=t_conf.batch_size,
                     shuffle=True,
+                    initial_epoch=3000,
                     validation_data=(x_test, x_test))
 
     score = autoencoder.evaluate(x_test, x_test, verbose=0)
@@ -57,7 +59,7 @@ def main():
     with open(saved_experiment_id_dir + '/result.txt', 'w') as outf:
         outf.write('test loss:' + str(score) + '\n' + str(t_conf))
 
-    autoencoder.save_weights(saved_model_dir + 'autoencoder_deep.h5')
+    autoencoder.save_weights(saved_model_dir + 'autoencoder_deep_20000.h5')
 
     decoded_imgs = autoencoder.predict(x_test)
     draw_result(decoded_imgs, x_test, t_conf, saved_experiment_id_dir)
