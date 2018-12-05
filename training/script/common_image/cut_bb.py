@@ -10,8 +10,8 @@ def main():
     :return:
     """
     print('a')
-    in_dir = '/usr/local/wk/work/VoTT/data/sr400_right/normal/'
-    out_dit = '/usr/local/wk/work/VoTT/data/sr400_right/image_bb/'
+    in_dir = '/usr/local/wk/work/VoTT/data/sr400_right/distortion/'
+    out_dit = '/usr/local/wk/work/VoTT/data/sr400_right/image_bb_distortion/'
     annotation_path = '/usr/local/wk/work/VoTT/data/sr400_right/normal_output/train_right_fork.txt'
 
     with open(annotation_path, 'r') as anno_f:
