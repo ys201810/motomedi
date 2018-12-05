@@ -3,7 +3,7 @@ This directory is for cnn classification training.
 You can use only darknet19 now. I want to add other networks.
 
 ## how to use
-1. Make a dataset.
+### 1. Make a dataset.
  Prepare train and test directories at /path/to/motomedi/datasets/. (if you don't have this directory, please make it.)  
  You should make a below's two directories.  
   /path/to/motomedi/datasets/fruit/train/[apple, banana, grape]  
@@ -22,7 +22,7 @@ You can use only darknet19 now. I want to add other networks.
 
     (Of course, you can use free name for image files. You don't need to follow perfectory example names.)
 
-2. Edit conf file.
+### 2. Edit the conf file.
  Edit conf file(/path/to/motomedi/training/conf/config.ini)
  Editing points are below.
  
@@ -39,7 +39,7 @@ You can use only darknet19 now. I want to add other networks.
 | 9 | test_path | /usr/local/wk/motomedi/datasets/fruit/test/ | your test data path. |
 | 10 | save_dir | /usr/local/wk/motomedi/training/saved/ | your save path. after processing this path save log, model, result, conf file. |
 
-3. Do training.
+### 3. Do training.
  ```
  export PYTHONPATY=$PYTHONPATY:/path/to/motomedi/training/script
  python train.py
