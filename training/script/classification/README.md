@@ -1,11 +1,11 @@
-## what is this directory
+## about this directory
 This directory is for cnn classification training.  
 You can use only darknet19 now. I want to add other networks.
 
 ## how to use
 ### 1. Make a dataset.
  Prepare train and test directories at /path/to/motomedi/datasets/. (if you don't have this directory, please make it.)  
- You should make a below's two directories.  
+ You should make like a below's two directories.  
   /path/to/motomedi/datasets/fruit/train/[apple, banana, grape]  
   /path/to/motomedi/datasets/fruit/test/[apple, banana, grape]  
 
