@@ -1,5 +1,6 @@
 # motomedi
 
+## about this repository
 This repository have a below's function.
 1. Training a DL model.(scripts put at training/)  
 2. Confirming the DL inference result at Web UI.(scripts put at web_if/)  
