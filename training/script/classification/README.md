@@ -1,6 +1,6 @@
 ## about this directory
 This directory is for cnn classification training.  
-You can use only darknet19 now. I want to add other networks.
+In this direcroty, you can use only darknet19 now. I want to add other networks in the future.
 
 ## how to use
 ### 1. Make a dataset.
