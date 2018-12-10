@@ -2,11 +2,19 @@
 web_if/model/
 training/saved/
 
+# except training data
+training/data/
+
 # except image files
 *.jpg
 *.png
 *.JPG
 *.PNG
+
+# except npy files
+*.npy
+
+# except execute files
 *.pyc
 
 # except venv dir
