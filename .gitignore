@@ -25,3 +25,7 @@ web_if/venv/
 # except .idea
 training/.idea/
 training/script/.idea/
+
+# except model file and json
+*.h5
+*.json
