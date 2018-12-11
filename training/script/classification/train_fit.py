@@ -6,7 +6,7 @@ import os
 from keras import backend as K
 from keras.preprocessing import image
 # from sklearn.model_selection import train_test_split
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 import keras
 import numpy as np
 from keras import optimizers
@@ -33,7 +33,7 @@ def main():
     K.set_session(sess)
 
     # config setting
-    config_file = '../conf/config.ini'
+    config_file = '../../conf/classification/config_fit.ini'
     config = configparser.ConfigParser()
     config.read(config_file)
 
@@ -91,6 +91,9 @@ def main():
     x /= 255
     y = np.asarray(y)
     y = keras.utils.to_categorical(y, num_classes)
+
+    x = x[:100]
+    y = y[:100]
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.1, random_state= 3)
 
     print('model load')
