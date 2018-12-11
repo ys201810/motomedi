@@ -4,11 +4,21 @@ training/saved/
 *.h5
 *.json
 
+# except training data
+training/data/
+datasets/
+!.gitkeep
+
 # except image files
 *.jpg
 *.png
 *.JPG
 *.PNG
+
+# except npy files
+*.npy
+
+# except execute files
 *.pyc
 
 # except venv dir
@@ -16,3 +26,8 @@ web_if/venv/
 
 # except .idea
 training/.idea/
+training/script/.idea/
+
+# except model file and json
+*.h5
+*.json
