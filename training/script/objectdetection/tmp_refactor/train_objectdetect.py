@@ -5,7 +5,7 @@ import keras.backend as K
 from keras.layers import Input, Lambda
 from objectdetection.yolov3 import yolo_body, yolo_loss, preprocess_true_boxes
 from keras.models import Model
-import common.tensorboard_conf
+import common.tensorboard_conf as tensorboard_conf
 import datetime
 from keras.callbacks import TensorBoard, ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.optimizers import Adam
@@ -88,18 +88,19 @@ def data_generator_wrapper(annotation_lines, batch_size, input_shape, anchors, n
     return data_generator(annotation_lines, batch_size, input_shape, anchors, num_classes)
 
 def main():
-    config_file = '../conf/config_od.ini'
+    config_file = '../../conf/objectdetection/config_od.ini'
     config = load_config(config_file)
 
     # set config
+    base_dir = config.get('base_info', 'base_dir')
     image_height = int(config.get('image_info', 'image_height'))
     image_width = int(config.get('image_info', 'image_width'))
     image_channel_dim = int(config.get('image_info', 'image_channel_dim'))
-    save_base_dir = config.get('other_info', 'save_dir')
-    annotation_path = config.get('label_info', 'annotation_path')
-    anchors_path = config.get('label_info', 'anchors_path')
-    classes_path = config.get('label_info', 'classes_path')
-    pretrain_model_path = config.get('train_info', 'pre_train_model')
+    save_base_dir = base_dir + config.get('other_info', 'save_dir')
+    annotation_path = base_dir + config.get('label_info', 'annotation_path')
+    anchors_path = base_dir + config.get('label_info', 'anchors_path')
+    classes_path = base_dir + config.get('label_info', 'classes_path')
+    pretrain_model_path = base_dir + config.get('train_info', 'pre_train_model')
     batch_size = int(config.get('train_info','batch_size'))
     epochs = int(config.get('train_info', 'epochs'))
 

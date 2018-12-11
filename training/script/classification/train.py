@@ -5,8 +5,8 @@ import random as rn
 import os
 from keras import backend as K
 from keras.preprocessing import image
-# from sklearn.model_selection import train_test_split
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
+# from sklearn.cross_validation import train_test_split
 import keras
 import numpy as np
 from keras import optimizers
