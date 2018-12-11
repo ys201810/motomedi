@@ -4,6 +4,7 @@ training/saved/
 
 # except training data
 training/data/
+datasets/
 
 # except image files
 *.jpg
