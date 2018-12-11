@@ -1,6 +1,8 @@
 # except model files
 web_if/model/
 training/saved/
+*.h5
+*.json
 
 # except image files
 *.jpg
