@@ -5,6 +5,7 @@ training/saved/
 # except training data
 training/data/
 datasets/
+!.gitkeep
 
 # except image files
 *.jpg
