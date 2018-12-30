@@ -26,6 +26,16 @@ In this directory, you can use only yolov3 now. I want to add other networks in 
   ...
   ```
 
+### 2. Generate anchor.txt
+please chenge the kmeans.py at line of `filename = "/to/your/train.txt"`.
+after that, do below's command.
+
+```
+python kmeans.py
+```
+
+then, you can get anchor.txt. This will be used at training.
+
 ### 2. Edit the conf file.<WIP>
  Edit conf file(/path/to/motomedi/training/conf/config.ini)
  Editing points are below.
